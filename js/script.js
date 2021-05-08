@@ -3,7 +3,7 @@
 function titleClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
-  console.log('Link was clicked!');
+  //console.log('Link was clicked!');
 
   /* [DONE] remove class 'active' from all article links  */
 
@@ -31,23 +31,16 @@ function titleClickHandler(event) {
   /* [DONE] get 'href' attribute from the clicked link */
 
   const articleSelector = clickedElement.getAttribute('href');
-  console.log(articleSelector);
+  //console.log(articleSelector);
 
   /* [DONE] find the correct article using the selector (value of 'href' attribute) */
 
   const targetArticle = document.querySelector(articleSelector);
-  console.log(targetArticle);
+  //console.log(targetArticle);
 
   /* [DONE]add class 'active' to the correct article */
 
   targetArticle.classList.add('active');
-}
-
-const links = document.querySelectorAll('.titles a');
-
-for (let link of links) {
-  link.addEventListener('click', titleClickHandler);
-  // link.addEventListener("click", (event) => titleClickHandler(event));
 }
 
 const optArticleSelector = '.post',
@@ -58,7 +51,7 @@ function generateTitleLinks() {
   /* remove contents of titleList */
 
   const titleList = document.querySelector(optTitleListSelector);
-  console.log('to tu to jest element (NODE):', titleList);
+  // console.log('to tu to jest element (NODE):', titleList);
 
   function clearMessages() {
     titleList.innerHTML = '';
@@ -73,23 +66,23 @@ function generateTitleLinks() {
 
   const articles = document.querySelectorAll(optArticleSelector);
   let html = '';
-  console.log('to jest html', html);
+  //console.log('to jest html', html);
   for (let article of articles) {
-    console.log('to jest pojedynczy article:', article);
+    //console.log('to jest pojedynczy article:', article);
     const articleId = article.getAttribute('id');
-    console.log(articleId);
+    // console.log(articleId);
     const articleTitle = article.querySelector(optTitleSelector).innerHTML;
-    console.log('articleTitle to jest:', articleTitle);
+    // console.log('articleTitle to jest:', articleTitle);
 
     const linkHTML =
       '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
-    console.log('to jest linkHTML', linkHTML);
+    //console.log('to jest linkHTML', linkHTML);
 
     titleList.insertAdjacentHTML('beforeend', linkHTML);
-    console.log(
-      'titleList.insertAdjacentHTML jest tu:',
-      titleList.insertAdjacentHTML('beforeend', linkHTML)
-    );
+    // console.log(
+    //   'titleList.insertAdjacentHTML jest tu:',
+    //   titleList.insertAdjacentHTML('beforeend', linkHTML)
+    // );
   }
 
   /* ROZBIJAJAC TO NA CZYNNIKI PIERWSZE: 
@@ -105,9 +98,15 @@ function generateTitleLinks() {
     const articleTitle = articleHeaderElement.innerHTML; /*
  
 
-
-
   /* insert link into titleList */
+
+  const links = document.querySelectorAll('.titles a');
+  //console.log('console.log od links', links);
+
+  for (let link of links) {
+    link.addEventListener('click', titleClickHandler);
+    // link.addEventListener("click", (event) => titleClickHandler(event));
+  }
 }
 
 generateTitleLinks();
