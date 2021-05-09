@@ -65,7 +65,7 @@ function generateTitleLinks() {
   /* [DONE] create HTML of the link */
 
   const articles = document.querySelectorAll(optArticleSelector);
-  let html = '';
+  //let html = '';
   //console.log('to jest html', html);
   for (let article of articles) {
     //console.log('to jest pojedynczy article:', article);
