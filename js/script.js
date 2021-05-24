@@ -47,7 +47,8 @@ const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author';
+  optArticleAuthorSelector = '.post-author',
+  optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = '') {
   // console.log('tutaj masz customSelector', customSelector);
@@ -72,7 +73,7 @@ function generateTitleLinks(customSelector = '') {
   // console.log('to jest to wazne na ten moment articles:', articles);
 
   /* UWAGA: tu np. wyjdzie nam: 
-  NodeList(4) [article#article-1.post.active, article#article-4.post, article#article-7.post, article#article-9.post] */
+  NodeList(4)[article#article-1.post.active, article#article-4.post, article#article-7.post, article#article-9.post] */
 
   //let html = '';
   //console.log('to jest html', html);
@@ -141,7 +142,7 @@ function generateTags() {
   for (let article of articles) {
     const titleList = article.querySelector(optArticleTagsSelector);
     //console.log(titleList);
-    let html = '';
+    // let html = ''; - to od kodilli - inne rozwiazanie ...
     //console.log('to jest zmienna html:', html);
     const articleTags = article.getAttribute('data-tags');
     //console.log('articleTags', articleTags);
@@ -155,7 +156,7 @@ function generateTags() {
       // console.log('to jest linkHTML', linkHTML);
       titleList.insertAdjacentHTML('beforeend', linkHTML);
     }
-    const links = article.querySelectorAll('data-tags');
+    //const links = article.querySelectorAll('data-tags');
     //console.log('console.log od links', links);
   }
 }
@@ -266,3 +267,59 @@ function addClickListenersToAuthors() {
 addClickListenersToAuthors();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// u gory   optTagsListSelector = '.tags.list';
+
+function generateTags() {
+  /* [NEW] create a new variable allTags with an empty array */
+  let allTags = [];
+
+  /* [DONE] find all articles */
+
+  const articles = document.querySelectorAll(optArticleSelector);
+
+  /* [DONE] START LOOP: for every article: */
+  /* [DONE] find tags wrapper */
+
+  /* [DONE] make html variable with empty string */
+
+  /* [DONE] get tags from data-tags attribute */
+
+  /* [DONE] split tags into array */
+
+  /* [DONE] START LOOP: for each tag */
+
+  /* [DONE] generate HTML of the link */
+
+  /* [DONE] add generated code to html variable */
+
+  for (let article of articles) {
+    const titleList = article.querySelector(optArticleTagsSelector);
+    let html = '';
+    const articleTags = article.getAttribute('data-tags');
+    const articleTagsArray = articleTags.split(' ');
+    for (let tag of articleTagsArray) {
+      const linkHTML = '<li><a href="#tag-' + tag + '">' + '&#8287;' + tag + '</a></li>';
+      titleList.insertAdjacentHTML('beforeend', linkHTML);
+
+      /* [NEW] check if this link is NOT already in allTags */
+      if (allTags.indexOf(linkHTML) == -1) {
+        /* [NEW] add generated code to allTags array */
+        allTags.push(linkHTML);
+        html = html + linkHTML;
+      }
+    }
+
+    /* [DONE] END LOOP: for each tag */
+    titleList.innerHTML = html;
+    /*  [DONE] insert HTML of all the links into the tags wrapper */
+
+    /* [DONE] END LOOP: for every article: */
+  }
+
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+
+  /* [NEW] add html from allTags to tagList */
+  tagList.innerHTML = allTags.join(' ');
+}
