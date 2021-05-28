@@ -271,8 +271,8 @@ addClickListenersToAuthors();
 /// u gory   optTagsListSelector = '.tags.list';
 
 function generateTags() {
-  /* [NEW] create a new variable allTags with an empty array */
-  let allTags = [];
+  /* [NEW] create a new variable allTags with an empty object */
+  let allTags = {};
 
   /* [DONE] find all articles */
 
@@ -302,12 +302,26 @@ function generateTags() {
       const linkHTML = '<li><a href="#tag-' + tag + '">' + '&#8287;' + tag + '</a></li>';
       titleList.insertAdjacentHTML('beforeend', linkHTML);
 
-      /* [NEW] check if this link is NOT already in allTags */
-      if (allTags.indexOf(linkHTML) == -1) {
-        /* [NEW] add generated code to allTags array */
-        allTags.push(linkHTML);
-        html = html + linkHTML;
+      // to zmieniamy, bo teraz korzystamy z obiektu, w którym chcemy zliczać wystąpienia tagów. Zacznijmy od obsłużenia sytuacji, w której w obiekcie allTags nie mamy jeszcze danego tagu. Wtedy licznik wystąpień tego tagu ustawiamy na 1.
+
+      // /* [NEW] check if this link is NOT already in allTags */
+      //     if (allTags.indexOf(linkHTML) == -1) {
+      //       /* [NEW] add generated code to allTags array */
+      //       allTags.push(linkHTML);
+
+      /* [NEW] check if this link i NOT alrealy in allTags 
+      (Zwróć uwagę, że w warunku użyliśmy wykrzyknika (!), czyli zastosowaliśmy negację. Dlatego warunek czytamy jako "jeśli allTags NIE MA klucza tag") */
+
+      if (!allTags.hasOwnProperty(tag)) {
+        /* [NEW] add tag to allTags object */
+        allTags[tag] = 1;
+      } else {
+        allTags[tag]++;
       }
+
+      html = html + linkHTML;
+      console.log('html', html);
+      console.log('tag', tag);
     }
 
     /* [DONE] END LOOP: for each tag */
@@ -320,6 +334,35 @@ function generateTags() {
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector('.tags');
 
+  // ten fragmnet kodu zamieniamy na innny
   /* [NEW] add html from allTags to tagList */
-  tagList.innerHTML = allTags.join(' ');
+  //  tagList.innerHTML = allTags.join(' '); === teraz wchodzi innny
+
+  /* [NEW] create variable for all links HTML code */
+  let allTagsHTML = '';
+
+  /* [NEW] START LOOP: for each tag in allTags: */
+  for (let tag in allTags) {
+    /* [NEW] generate code of a link and add it to allTagsHTML */
+
+    allTagsHTML +=
+      '<li><a href="#tag-' +
+      tag +
+      '">' +
+      '&#8287;' +
+      tag +
+      '</a> ' +
+      ' (' +
+      allTags[tag] +
+      ') ' +
+      '</li>';
+    // allTagsHTML += tag + ' (' + allTags[tag] + ') ';
+  }
+
+  /* [NEW] END LOOP: for each tag in allTags: */
+
+  /* [NEW] add html from allTagsHTML to tagList */
+  tagList.innerHTML = allTagsHTML;
+
+  console.log('allTags', allTags);
 }
